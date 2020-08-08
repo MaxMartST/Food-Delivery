@@ -47,7 +47,7 @@ window.addEventListener('DOMContentLoaded', () => {
     function getTimeRemaining(endtime) {
         //количество миллисекунд до которых нужно дойти
         const t = Date.parse(endtime) - Date.parse(new Date()),
-              days = Math.floor(t / (1000 * 60 * 60 * 24)),
+              days = Math.floor(t / (1000 * 60 * 60 * 24)),//общее количество мс делим на мс в день
               hours = Math.floor((t / (1000 * 60 * 60) % 24)),
               minutes = Math.floor((t / 1000 / 60) % 60), 
               seconds = Math.floor((t / 1000) % 60);
@@ -94,4 +94,38 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     setClock('.timer', deadline);
+
+    //Modal
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalCloseBtn = document.querySelector('[data-close]');
+
+    function openModel() {
+        modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.toggle('show');
+        document.body.style.overflow = '';
+    }
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener('click', openModel);
+    });
+
+    //отработка нажатия на Esc для закрытия мод. окна
+    modalCloseBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (event) => {
+        if (event.code === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    //отработка нажатия на серую зону для закрытия мод. окна
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 });
