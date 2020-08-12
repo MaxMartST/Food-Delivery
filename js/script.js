@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items');
 
-    function hideTabContent() {
+    function hideTabContent() { 
         tabsContent.forEach(item => {
             item.classList.add('hide');
             item.classList.remove('show', 'fade');
@@ -100,16 +100,18 @@ window.addEventListener('DOMContentLoaded', () => {
           modal = document.querySelector('.modal'),
           modalCloseBtn = document.querySelector('[data-close]');
     
-    //const modalTimerId = setTimeout(openModel, 5000);
+    const modalTimerId = setTimeout(openModel, 5000);
 
     function openModel() {
-        modal.classList.toggle('show');
+        modal.classList.add('show');
+        modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
-        //clearInterval(modalTimerId);
+        clearInterval(modalTimerId);
     }
 
     function closeModal() {
-        modal.classList.toggle('show');
+        modal.classList.add('hide');
+        modal.classList.remove('show');
         document.body.style.overflow = '';
     }
 
@@ -119,6 +121,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //отработка нажатия на Esc для закрытия мод. окна
     modalCloseBtn.addEventListener('click', closeModal);
+
     document.addEventListener('keydown', (event) => {
         if (event.code === 'Escape' && modal.classList.contains('show')){
             closeModal();
@@ -209,4 +212,55 @@ window.addEventListener('DOMContentLoaded', () => {
         21,
         '.menu .container'
     ).render();
+
+    //POST Form
+    const forms = document.querySelectorAll('form');
+
+    const message = {
+        loading: 'Загрузка',
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...'
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form) {
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+            request.setRequestHeader('Content-type', 'application/json');
+            
+            const formData = new FormData(form);
+
+            const object = {};
+            formData.forEach(function(value, key) {
+                object[key] = value;
+            });
+
+            const json = JSON.stringify(object);
+            request.send(json);
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout( () => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+        });
+    }
 });
