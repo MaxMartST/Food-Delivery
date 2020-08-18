@@ -282,6 +282,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     //Slider
     const slides = document.querySelectorAll('.offer__slide'),
+          slider = document.querySelector('.offer__slider'),
           prev = document.querySelector('.offer__slider-prev'),
           next = document.querySelector('.offer__slider-next'),
           total = document.querySelector('#total'),
@@ -311,76 +312,135 @@ window.addEventListener('DOMContentLoaded', () => {
         slide.style.width = width;
     });
 
-    next.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
-            offset = 0;
-        } else {
-            offset += +width.slice(0, width.length - 2);
+    slider.style.position = 'relative';
+
+    const indicators = document.createElement('ol'),
+          dots = [];
+    indicators.classList.add('carousel-indicators');
+    slider.append(indicators);
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+
+        if (i == 0) {
+            dot.classList.add('dot-active');
         }
 
-        slidesField.style.transform = `translateX(-${offset}px)`;
-        if (slideIndex == slides.length) {
-            slideIndex = 1;
-        } else {
-            slideIndex++;
-        }
+        indicators.append(dot);
+        dots.push(dot);
+    }
 
-        if (slides.length < 10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
-    });
+    // Scrolling slider ersion 1  
+    // next.addEventListener('click', () => {
+    //     if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+    //         offset = 0;
+    //     } else {
+    //         offset += +width.slice(0, width.length - 2);
+    //     }
 
-    prev.addEventListener('click', () => {
-        if (offset == 0) {
-            offset =  +width.slice(0, width.length - 2) * (slides.length - 1);
-        } else {
-            offset -= +width.slice(0, width.length - 2);
-        }
-
-        slidesField.style.transform = `translateX(-${offset}px)`;
-
-        if (slideIndex == 1) {
-            slideIndex = slides.length;
-        } else {
-            slideIndex--;
-        }
-
-        if (slides.length < 10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
-    });
-
-    // showSlides(slideIndex);
-    // total.textContent = getZero(slides.length);
-
-    // function showSlides(n) {
-    //     if (n > slides.length) {
+    //     slidesField.style.transform = `translateX(-${offset}px)`;
+    //     if (slideIndex == slides.length) {
     //         slideIndex = 1;
+    //     } else {
+    //         slideIndex++;
     //     }
 
-    //     if (n < 1) {
-    //         slideIndex = slides.length;
+    //     if (slides.length < 10) {
+    //         current.textContent = `0${slideIndex}`;
+    //     } else {
+    //         current.textContent = slideIndex;
     //     }
 
-    //     slides.forEach(item => item.classList.add('hide'));
-    //     slides[slideIndex - 1].classList.toggle('hide');
-
-    //     current.textContent = getZero(slideIndex);
-    // }
-
-    // function plusSlides(n) {
-    //     showSlides(slideIndex += n);
-    // }
+    //     dots.forEach(dot => dot.classList.remove('dot-active'));
+    //     dots[slideIndex -1].classList.add('dot-active');
+    // });
 
     // prev.addEventListener('click', () => {
-    //     plusSlides(-1);
+    //     if (offset == 0) {
+    //         offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+    //     } else {
+    //         offset -= +width.slice(0, width.length - 2);
+    //     }
+
+    //     slidesField.style.transform = `translateX(-${offset}px)`;
+
+    //     if (slideIndex == 1) {
+    //         slideIndex = slides.length;
+    //     } else {
+    //         slideIndex--;
+    //     }
+
+    //     if (slides.length < 10) {
+    //         current.textContent = `0${slideIndex}`;
+    //     } else {
+    //         current.textContent = slideIndex;
+    //     }
+
+    //     dots.forEach(dot => dot.classList.remove('dot-active'));
+    //     dots[slideIndex -1].classList.add('dot-active');
     // });
 
-    // next.addEventListener('click', () => {
-    //     plusSlides(1);
-    // });
+    // Scrolling slider version 1 
+    showSlides(slideIndex);
+    total.textContent = getZero(slides.length);
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => item.classList.add('hide'));
+        slides[slideIndex - 1].classList.toggle('hide');
+
+        current.textContent = getZero(slideIndex);
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    prev.addEventListener('click', () => {
+        plusSlides(-1);
+
+        dots.forEach(dot => dot.classList.remove('dot-active'));
+        dots[slideIndex -1].classList.add('dot-active');
+    });
+
+    next.addEventListener('click', () => {
+        plusSlides(1);
+
+        dots.forEach(dot => dot.classList.remove('dot-active'));
+        dots[slideIndex -1].classList.add('dot-active');
+    });
+
+    // Dot controls slider and counter
+    dots.forEach(dot => {
+        dot.addEventListener('click', (event) => {
+            const slideTo = event.target.getAttribute('data-slide-to');
+
+            slideIndex = slideTo;
+
+            // Scrolling slider version 1
+            // offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            // slidesField.style.transform = `translateX(-${offset}px)`;
+
+            // if (slides.length < 10) {
+            //     current.textContent = `0${slideIndex}`;
+            // } else {
+            //     current.textContent = slideIndex;
+            // }
+
+            // Scrolling slider version 2
+            showSlides(slideIndex);
+
+            dots.forEach(dot => dot.classList.remove('dot-active'));
+            dots[slideIndex -1].classList.add('dot-active');
+        });
+    });
 });
