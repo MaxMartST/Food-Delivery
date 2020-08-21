@@ -1,9 +1,6 @@
 "use strict";
-function timer() {
+function timer(id, deadline) {
     //Timer
-    //переменная, которая может приходить из разных источников
-    const deadline = '2020-09-01';
-
     //разница между нынешнем временем и deadline
     function getTimeRemaining(endtime) {
         //количество миллисекунд до которых нужно дойти
@@ -54,7 +51,7 @@ function timer() {
         }
     }
 
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 }
 
-module.exports = timer;
+export default timer;
