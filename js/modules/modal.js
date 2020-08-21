@@ -1,4 +1,5 @@
 "use strict";
+
 function openModel(modalSelector, modalTimerId) {
     const modal = document.querySelector(modalSelector);
 

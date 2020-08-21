@@ -1,4 +1,5 @@
 "use strict";
+import {getZero} from './timer';
 
 function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper}) {
     //Slider
@@ -13,14 +14,6 @@ function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCo
     
     let slideIndex = 1;
     let offset = 0;
-
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`;
-        } else {
-            return num;
-        }
-    }
 
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;

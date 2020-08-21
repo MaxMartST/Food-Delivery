@@ -1,4 +1,12 @@
 "use strict";
+function getZero(num) {
+    if (num >= 0 && num < 10) {
+        return `0${num}`;
+    } else {
+        return num;
+    }
+}
+
 function timer(id, deadline) {
     //Timer
     //разница между нынешнем временем и deadline
@@ -17,14 +25,6 @@ function timer(id, deadline) {
             'minutes': minutes,
             'seconds': seconds
         };
-    }
-
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`;
-        } else {
-            return num;
-        }
     }
 
     function setClock(selector, endtime) {
@@ -55,3 +55,4 @@ function timer(id, deadline) {
 }
 
 export default timer;
+export {getZero};

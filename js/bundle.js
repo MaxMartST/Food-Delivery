@@ -96,6 +96,7 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
+
 function calc() {
     //Calc
     const result = document.querySelector('.calculating__result span');
@@ -383,6 +384,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openModel", function() { return openModel; });
 
+
 function openModel(modalSelector, modalTimerId) {
     const modal = document.querySelector(modalSelector);
 
@@ -452,6 +454,8 @@ function modal(triggerSelector, modalSelector, modalTimerId) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./timer */ "./js/modules/timer.js");
+
 
 
 function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper}) {
@@ -467,14 +471,6 @@ function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCo
     
     let slideIndex = 1;
     let offset = 0;
-
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`;
-        } else {
-            return num;
-        }
-    }
 
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
@@ -519,7 +515,7 @@ function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCo
 
     // Scrolling slider version 2
     showSlides(slideIndex);
-    total.textContent = getZero(slides.length);
+    total.textContent = Object(_timer__WEBPACK_IMPORTED_MODULE_0__["getZero"])(slides.length);
 
     function showSlides(n) {
         if (n > slides.length) {
@@ -533,7 +529,7 @@ function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCo
         slides.forEach(item => item.classList.add('hide'));
         slides[slideIndex - 1].classList.remove('hide');
 
-        current.textContent = getZero(slideIndex);
+        current.textContent = Object(_timer__WEBPACK_IMPORTED_MODULE_0__["getZero"])(slideIndex);
         markDot(dots, slideIndex);
     }
 
@@ -624,11 +620,20 @@ function tabs(tabsSlector, tabsContentSelector, tabsParentSelector, activeClass)
 /*!*****************************!*\
   !*** ./js/modules/timer.js ***!
   \*****************************/
-/*! exports provided: default */
+/*! exports provided: default, getZero */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getZero", function() { return getZero; });
+
+function getZero(num) {
+    if (num >= 0 && num < 10) {
+        return `0${num}`;
+    } else {
+        return num;
+    }
+}
 
 function timer(id, deadline) {
     //Timer
@@ -648,14 +653,6 @@ function timer(id, deadline) {
             'minutes': minutes,
             'seconds': seconds
         };
-    }
-
-    function getZero(num) {
-        if (num >= 0 && num < 10) {
-            return `0${num}`;
-        } else {
-            return num;
-        }
     }
 
     function setClock(selector, endtime) {
@@ -686,6 +683,7 @@ function timer(id, deadline) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (timer);
+
 
 /***/ }),
 
